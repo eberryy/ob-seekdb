@@ -54,15 +54,15 @@ int main()
   }
 
   // An append failure must be propagated without further writes.
-  for (int fail_at = 1; fail_at <= 5; ++fail_at) {
+  for (int fail_at = 1; fail_at <= 6; ++fail_at) {
     int calls = 0;
     const auto append = [&](const char *, size_t) {
       ++calls;
       return calls == fail_at ? -4013 : 0;
     };
     const int ret = append_ddl_quoted_identifier("a`b", 3, false, append);
-    assert(ret == (fail_at <= 4 ? -4013 : 0));
-    assert(calls == (fail_at <= 4 ? fail_at : 4));
+    assert(ret == (fail_at <= 5 ? -4013 : 0));
+    assert(calls == (fail_at <= 5 ? fail_at : 5));
   }
   return 0;
 }
